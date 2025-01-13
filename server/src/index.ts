@@ -56,6 +56,8 @@ if (!isProduction) {
     );
     await connectDatabase();
   });
+} else {
+  connectDatabase();
 }
 
 // aws production environment

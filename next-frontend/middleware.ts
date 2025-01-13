@@ -16,6 +16,9 @@ export default async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.includes(path);
 
   const accessToken = req.cookies.get("accessToken")?.value;
+  console.log("Cookies: ", req.cookies);
+  console.log("accessToken: ", req.cookies.get("accessToken"));
+  console.log("accessToken-main: ", accessToken);
 
   if (isProtectedRoute && !accessToken) {
     return NextResponse.redirect(new URL("/", req.nextUrl));
