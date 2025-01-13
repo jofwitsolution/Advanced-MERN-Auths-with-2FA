@@ -1,0 +1,26 @@
+# Ignore node_modules directories
+**/node_modules/
+**/dist/
+
+# Ignore build artifacts
+build/
+dist/
+
+
+# Ignore logs
+*.log
+logs/
+
+# Ignore temporary files and folders created by OS
+.DS_Store
+Thumbs.db
+
+# Ignore env files at root level (if you have any)
+.env
+next-frontend/.env.local
+backend/.env.local
+react-frontend/.env.local
+
+next-frontend/.next/
+
+.vscode/
