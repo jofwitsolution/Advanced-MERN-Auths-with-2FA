@@ -18,7 +18,7 @@ Thumbs.db
 # Ignore env files at root level (if you have any)
 .env
 next-frontend/.env.local
-backend/.env.local
+server/.env.local
 react-frontend/.env.local
 
 next-frontend/.next/
