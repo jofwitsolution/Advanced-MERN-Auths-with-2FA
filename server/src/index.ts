@@ -2,6 +2,7 @@ import "dotenv/config";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
+import serverless from "serverless-http";
 import { config } from "./config/app.config";
 import connectDatabase from "./database/database";
 import { errorHandler } from "./middlewares/errorHandler";
@@ -12,6 +13,8 @@ import passport from "./middlewares/passport";
 import sessionRoutes from "./modules/session/session.routes";
 import { authenticateJWT } from "./common/strategies/jwt.strategy";
 import mfaRoutes from "./modules/mfa/mfa.routes";
+
+const isProduction = config.NODE_ENV === "production";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -45,7 +48,18 @@ app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 
 app.use(errorHandler);
 
-app.listen(config.PORT, async () => {
-  console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
-  await connectDatabase();
-});
+// Development Server
+if (!isProduction) {
+  app.listen(config.PORT, async () => {
+    console.log(
+      `Server listening on port ${config.PORT} in ${config.NODE_ENV}`
+    );
+    await connectDatabase();
+  });
+}
+
+// aws production environment
+const serverlessApp = serverless(app);
+export const handler = async (event: any, context: any) => {
+  return serverlessApp(event, context);
+};
